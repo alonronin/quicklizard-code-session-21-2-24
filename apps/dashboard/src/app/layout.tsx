@@ -1,4 +1,6 @@
-import './global.css';
+import '@apps/tailwind-preset';
+import { ModeToggle, ThemeProvider } from '@apps/components';
+import { Navigation } from './components/navigation';
 
 export const metadata = {
   title: 'Welcome to dashboard',
@@ -11,8 +13,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <header className="border-b">
+            <div className="flex items-center justify-between container p-4">
+              <Navigation
+                items={[
+                  { title: 'Home', url: '/', exact: true },
+                  { title: 'Posts', url: '/posts' },
+                ]}
+              />
+              <ModeToggle />
+            </div>
+          </header>
+          <div className="container p-4">{children}</div>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
